@@ -3,7 +3,7 @@
 
 $(function() {
   $dropship = $('#dropship');
-  // $dropship.delay(2000).animate({rotate: "+=10deg"}, {duration: 1000}).animate({left: "+=1000"}, {duration: 10000, easing: 'swing'});
+  $dropship.animate({color: 'red'});
   $ended = false;
   $percentages_hit = [0, 90, 100];
   $dropship.delay(2000).animate({left: "+=1000"}, {duration: 10000, easing: 'swing', step:
@@ -20,11 +20,24 @@ $(function() {
   });
   
   $marine = $('#marine');
+  $stim = $('#stim');
   function drop_marine() {
     $new_marine = $marine.clone();
-    $new_marine.position({my: 'top middle', at: 'top middle', of: '#dropship'});
     $('body').append($new_marine);
+    $new_marine.position({my: 'top middle', at: 'top middle', of: $dropship});
     $new_marine.css({display: 'block'});
-    $new_marine.animate({top: "+=150"}, {duration: 1500, easing: 'swing'});
+    $new_marine.animate({top: "+=150"}, {duration: 1500, easing: 'swing', complete:
+      function() {
+        $new_stim = $stim.clone();
+        $('body').append($new_stim);
+        $new_stim.position({my: 'left bottom', at: 'right top', of: $(this)});
+        $new_stim.css({display: 'block'});
+        for(n = 0; n < 5; n++) {
+          $new_stim.animate({'background-color': 'yellow'}, 300);
+          $new_stim.animate({'background-color': 'red'}, 300);
+          $new_stim.animate({'background-color': 'white'}, 300);
+        }
+      }
+    });
   }
 });
